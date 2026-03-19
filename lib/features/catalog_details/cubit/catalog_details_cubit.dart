@@ -10,6 +10,8 @@ part 'catalog_details_cubit.freezed.dart';
 class CatalogDetailsCubit extends Cubit<CatalogDetailsState> {
   CatalogDetailsCubit({required Catalog catalog})
     : super(
-        CatalogDetailsState.initial(data: CatalogDetailsData(catalog: catalog)),
+        CatalogDetailsState.loadSuccess(
+          data: CatalogDetailsData(catalog: catalog),
+        ),
       );
 }

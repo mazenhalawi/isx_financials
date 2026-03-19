@@ -20,7 +20,6 @@ class CatalogDetailsPage extends StatelessWidget {
       body: BlocBuilder<CatalogDetailsCubit, CatalogDetailsState>(
         builder: (context, state) {
           return state.when(
-            initial: (data, _) => _getInitialState(context),
             loading: (data, _) =>
                 _getLoadingState(context: context, data: data),
             loadFailure: (failure, retryAction, data, _) =>
@@ -39,10 +38,6 @@ class CatalogDetailsPage extends StatelessWidget {
 }
 
 extension StateWidgets on CatalogDetailsPage {
-  Widget _getInitialState(BuildContext context) {
-    return Container();
-  }
-
   Widget _getLoadingState({
     required BuildContext context,
     required CatalogDetailsData data,
@@ -65,6 +60,25 @@ extension StateWidgets on CatalogDetailsPage {
     required BuildContext context,
     required CatalogDetailsData data,
   }) {
-    return Container();
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(data.catalog.title),
+            Text(
+              "Category: ${data.catalog.category?.title ?? 'Category not set'}",
+            ),
+            Text(
+              "Price(\$): ${data.catalog.price?.toString() ?? 'Price not set'}",
+            ),
+            Text(
+              "Rating: ${data.catalog.rating?.toString() ?? 'Rating not set'}",
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
