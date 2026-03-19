@@ -15,7 +15,23 @@ class CatalogListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Catalog List')),
+      appBar: AppBar(
+        title: Text('Catalog List'),
+        bottom: const PreferredSize(
+          preferredSize: Size(double.infinity, 60),
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
+            child: SizedBox(
+              height: 40,
+              child: SearchBar(
+                leading: Icon(Icons.search),
+                hintText: "Search catalogs...",
+                elevation: WidgetStatePropertyAll(0),
+              ),
+            ),
+          ),
+        ),
+      ),
       body: BlocConsumer<CatalogListBloc, CatalogListState>(
         listenWhen: (prev, curr) => curr.isListenerState,
         buildWhen: (prev, curr) => !curr.isListenerState,

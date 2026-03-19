@@ -1,3 +1,4 @@
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isx_financials/common/models/failure.dart';
@@ -21,9 +22,21 @@ class CatalogListBloc extends Bloc<CatalogListEvent, CatalogListState> {
           event as CatalogListEventToggleFavorite,
           emit,
         ),
+        filter: (query) => null,
       );
     });
+
+    // handle filter event with droppable transformer to prevent multiple
+    // rapid filter events from causing performance issues
+    on<CatalogListEventFilter>((event, emit) async {
+      await _mapFilterEventToState(event, emit);
+    }, transformer: droppable());
   }
+
+  Future _mapFilterEventToState(
+    CatalogListEventFilter event,
+    Emitter<CatalogListState> emit,
+  ) async {}
 
   Future _mapFetchCatalogsEventToState(
     CatalogListEvent event,

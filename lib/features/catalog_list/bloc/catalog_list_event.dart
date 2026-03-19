@@ -7,4 +7,6 @@ class CatalogListEvent with _$CatalogListEvent {
 
   const factory CatalogListEvent.toggleFavorite(String catalogId) =
       CatalogListEventToggleFavorite;
+
+  const factory CatalogListEvent.filter(String query) = CatalogListEventFilter;
 }

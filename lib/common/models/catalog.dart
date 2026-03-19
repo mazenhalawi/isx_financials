@@ -19,3 +19,8 @@ abstract class Catalog with _$Catalog {
   factory Catalog.fromJson(Map<String, dynamic> json) =>
       _$CatalogFromJson(json);
 }
+
+extension CatalogExt on Catalog {
+  String get searchableContent =>
+      '$id $title ${category?.name ?? ''} $price $rating';
+}

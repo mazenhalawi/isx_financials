@@ -10,11 +10,14 @@ class TimeBanner extends StatelessWidget {
       children: [
         Expanded(
           child: Container(
-            color: Colors.yellow,
+            color: Colors.grey.shade700,
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),
-                child: Text('Last updated: ${dateTime.toIso8601String()}'),
+                child: Text(
+                  'Last updated: ${dateTime.toIso8601String()}',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ),
