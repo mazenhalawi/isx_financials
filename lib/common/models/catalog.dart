@@ -13,6 +13,7 @@ abstract class Catalog with _$Catalog {
     Category? category,
     double? price,
     double? rating,
+    @Default(false) bool isFavorite,
   }) = _Catalog;
 
   factory Catalog.fromJson(Map<String, dynamic> json) =>

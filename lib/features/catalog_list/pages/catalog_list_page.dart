@@ -6,6 +6,8 @@ import 'package:isx_financials/common/widgets/failure_widget.dart';
 import 'package:isx_financials/common/widgets/spinner.dart';
 import 'package:isx_financials/features/catalog_list/bloc/catalog_list_bloc.dart';
 import 'package:isx_financials/features/catalog_list/models/catalog_list_data.dart';
+import 'package:isx_financials/features/catalog_list/widgets/catalog_list_item.dart';
+import 'package:isx_financials/features/catalog_list/widgets/time_banner.dart';
 
 class CatalogListPage extends StatelessWidget {
   const CatalogListPage({super.key});
@@ -54,6 +56,10 @@ class CatalogListPage extends StatelessWidget {
       ),
     );
   }
+
+  void _handleOpenCatelogDetails(BuildContext context, catalog) {
+    throw UnimplementedError('Open catalog details is not implemented yet');
+  }
 }
 
 extension StateWidgets on CatalogListPage {
@@ -88,6 +94,26 @@ extension StateWidgets on CatalogListPage {
     required BuildContext context,
     required CatalogListData data,
   }) {
-    return Container();
+    return Column(
+      children: [
+        if (data.lastUpdated != null) TimeBanner(dateTime: data.lastUpdated!),
+        Expanded(
+          child: ListView.builder(
+            itemCount: data.filteredCatalogs.length,
+            itemBuilder: (context, index) {
+              final catalog = data.filteredCatalogs[index];
+
+              return CatalogListItem(
+                catalog: catalog,
+                onTap: () => _handleOpenCatelogDetails(context, catalog),
+                onToggleFavorite: () => context.read<CatalogListBloc>().add(
+                  CatalogListEvent.toggleFavorite(catalog.id),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
   }
 }

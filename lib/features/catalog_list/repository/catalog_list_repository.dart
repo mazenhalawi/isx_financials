@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/services.dart';
 import 'package:dartz/dartz.dart';
@@ -13,12 +14,9 @@ class CatalogListRepositoryImpl extends CatalogListRepository {
   @override
   Future<Either<Failure, FetchCatalogResponse>> fetchCatalogs() async {
     try {
-      final json =
-          await rootBundle.loadStructuredData(
-                'assets/json/data.json',
-                (stringJson) => jsonDecode(stringJson),
-              )
-              as Map<String, dynamic>;
+      final result = await rootBundle.loadString('assets/json/data.json');
+
+      final json = jsonDecode(result) as Map<String, dynamic>;
 
       // add delay to simulate network request
       await Future.delayed(Duration(seconds: 2));
@@ -26,6 +24,7 @@ class CatalogListRepositoryImpl extends CatalogListRepository {
       final response = FetchCatalogResponse.fromJson(json);
       return Right(response);
     } catch (e) {
+      log(e.toString());
       return Left(ConnectionFailure());
     }
   }

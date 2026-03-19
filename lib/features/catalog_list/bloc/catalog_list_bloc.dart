@@ -17,6 +17,10 @@ class CatalogListBloc extends Bloc<CatalogListEvent, CatalogListState> {
     on<CatalogListEvent>((event, emit) async {
       await event.when(
         fetchCatalogs: () => _mapFetchCatalogsEventToState(event, emit),
+        toggleFavorite: (catalogId) => _mapToggleFavoriteEventToState(
+          event as CatalogListEventToggleFavorite,
+          emit,
+        ),
       );
     });
   }
@@ -47,5 +51,31 @@ class CatalogListBloc extends Bloc<CatalogListEvent, CatalogListState> {
         emit(CatalogListState.loadSuccess(data: updatedData));
       },
     );
+  }
+
+  Future _mapToggleFavoriteEventToState(
+    CatalogListEventToggleFavorite event,
+    Emitter<CatalogListState> emit,
+  ) async {
+    final updatedCatalogs = state.data.allCatalogs.map((catalog) {
+      if (catalog.id == event.catalogId) {
+        return catalog.copyWith(isFavorite: !catalog.isFavorite);
+      }
+      return catalog;
+    }).toList();
+
+    final updatedFilteredCatalogs = state.data.filteredCatalogs.map((catalog) {
+      if (catalog.id == event.catalogId) {
+        return catalog.copyWith(isFavorite: !catalog.isFavorite);
+      }
+      return catalog;
+    }).toList();
+
+    final updatedData = state.data.copyWith(
+      allCatalogs: updatedCatalogs,
+      filteredCatalogs: updatedFilteredCatalogs,
+    );
+
+    emit(CatalogListState.loadSuccess(data: updatedData));
   }
 }

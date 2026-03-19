@@ -12,6 +12,7 @@ _Catalog _$CatalogFromJson(Map<String, dynamic> json) => _Catalog(
   category: Category.fromString(json['category'] as String?),
   price: (json['price'] as num?)?.toDouble(),
   rating: (json['rating'] as num?)?.toDouble(),
+  isFavorite: json['isFavorite'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$CatalogToJson(_Catalog instance) => <String, dynamic>{
@@ -20,4 +21,5 @@ Map<String, dynamic> _$CatalogToJson(_Catalog instance) => <String, dynamic>{
   'category': Category.toJson(instance.category),
   'price': instance.price,
   'rating': instance.rating,
+  'isFavorite': instance.isFavorite,
 };

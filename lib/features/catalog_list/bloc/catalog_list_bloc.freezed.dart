@@ -55,11 +55,12 @@ extension CatalogListEventPatterns on CatalogListEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( CatalogListEventFetchCatalogs value)?  fetchCatalogs,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( CatalogListEventFetchCatalogs value)?  fetchCatalogs,TResult Function( CatalogListEventToggleFavorite value)?  toggleFavorite,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case CatalogListEventFetchCatalogs() when fetchCatalogs != null:
-return fetchCatalogs(_that);case _:
+return fetchCatalogs(_that);case CatalogListEventToggleFavorite() when toggleFavorite != null:
+return toggleFavorite(_that);case _:
   return orElse();
 
 }
@@ -77,11 +78,12 @@ return fetchCatalogs(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( CatalogListEventFetchCatalogs value)  fetchCatalogs,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( CatalogListEventFetchCatalogs value)  fetchCatalogs,required TResult Function( CatalogListEventToggleFavorite value)  toggleFavorite,}){
 final _that = this;
 switch (_that) {
 case CatalogListEventFetchCatalogs():
-return fetchCatalogs(_that);case _:
+return fetchCatalogs(_that);case CatalogListEventToggleFavorite():
+return toggleFavorite(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -98,11 +100,12 @@ return fetchCatalogs(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( CatalogListEventFetchCatalogs value)?  fetchCatalogs,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( CatalogListEventFetchCatalogs value)?  fetchCatalogs,TResult? Function( CatalogListEventToggleFavorite value)?  toggleFavorite,}){
 final _that = this;
 switch (_that) {
 case CatalogListEventFetchCatalogs() when fetchCatalogs != null:
-return fetchCatalogs(_that);case _:
+return fetchCatalogs(_that);case CatalogListEventToggleFavorite() when toggleFavorite != null:
+return toggleFavorite(_that);case _:
   return null;
 
 }
@@ -119,10 +122,11 @@ return fetchCatalogs(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  fetchCatalogs,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  fetchCatalogs,TResult Function( String catalogId)?  toggleFavorite,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case CatalogListEventFetchCatalogs() when fetchCatalogs != null:
-return fetchCatalogs();case _:
+return fetchCatalogs();case CatalogListEventToggleFavorite() when toggleFavorite != null:
+return toggleFavorite(_that.catalogId);case _:
   return orElse();
 
 }
@@ -140,10 +144,11 @@ return fetchCatalogs();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  fetchCatalogs,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  fetchCatalogs,required TResult Function( String catalogId)  toggleFavorite,}) {final _that = this;
 switch (_that) {
 case CatalogListEventFetchCatalogs():
-return fetchCatalogs();case _:
+return fetchCatalogs();case CatalogListEventToggleFavorite():
+return toggleFavorite(_that.catalogId);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -160,10 +165,11 @@ return fetchCatalogs();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  fetchCatalogs,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  fetchCatalogs,TResult? Function( String catalogId)?  toggleFavorite,}) {final _that = this;
 switch (_that) {
 case CatalogListEventFetchCatalogs() when fetchCatalogs != null:
-return fetchCatalogs();case _:
+return fetchCatalogs();case CatalogListEventToggleFavorite() when toggleFavorite != null:
+return toggleFavorite(_that.catalogId);case _:
   return null;
 
 }
@@ -202,6 +208,72 @@ String toString() {
 
 
 
+
+/// @nodoc
+
+
+class CatalogListEventToggleFavorite implements CatalogListEvent {
+  const CatalogListEventToggleFavorite(this.catalogId);
+  
+
+ final  String catalogId;
+
+/// Create a copy of CatalogListEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CatalogListEventToggleFavoriteCopyWith<CatalogListEventToggleFavorite> get copyWith => _$CatalogListEventToggleFavoriteCopyWithImpl<CatalogListEventToggleFavorite>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CatalogListEventToggleFavorite&&(identical(other.catalogId, catalogId) || other.catalogId == catalogId));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,catalogId);
+
+@override
+String toString() {
+  return 'CatalogListEvent.toggleFavorite(catalogId: $catalogId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CatalogListEventToggleFavoriteCopyWith<$Res> implements $CatalogListEventCopyWith<$Res> {
+  factory $CatalogListEventToggleFavoriteCopyWith(CatalogListEventToggleFavorite value, $Res Function(CatalogListEventToggleFavorite) _then) = _$CatalogListEventToggleFavoriteCopyWithImpl;
+@useResult
+$Res call({
+ String catalogId
+});
+
+
+
+
+}
+/// @nodoc
+class _$CatalogListEventToggleFavoriteCopyWithImpl<$Res>
+    implements $CatalogListEventToggleFavoriteCopyWith<$Res> {
+  _$CatalogListEventToggleFavoriteCopyWithImpl(this._self, this._then);
+
+  final CatalogListEventToggleFavorite _self;
+  final $Res Function(CatalogListEventToggleFavorite) _then;
+
+/// Create a copy of CatalogListEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? catalogId = null,}) {
+  return _then(CatalogListEventToggleFavorite(
+null == catalogId ? _self.catalogId : catalogId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
 
 /// @nodoc
 mixin _$CatalogListState {
