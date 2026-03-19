@@ -3,9 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isx_financials/common/models/failure.dart';
+import 'package:isx_financials/common/services/get_it.dart';
 import 'package:isx_financials/common/widgets/alert_box.dart';
 import 'package:isx_financials/common/widgets/failure_widget.dart';
 import 'package:isx_financials/common/widgets/spinner.dart';
+import 'package:isx_financials/features/catalog_details/cubit/catalog_details_cubit.dart';
+import 'package:isx_financials/features/catalog_details/pages/catalog_details_page.dart';
 import 'package:isx_financials/features/catalog_list/bloc/catalog_list_bloc.dart';
 import 'package:isx_financials/features/catalog_list/models/catalog_list_data.dart';
 import 'package:isx_financials/features/catalog_list/widgets/catalog_list_item.dart';
@@ -123,7 +126,14 @@ class _CatalogListPageState extends State<CatalogListPage> {
   }
 
   void _handleOpenCatelogDetails(BuildContext context, catalog) {
-    throw UnimplementedError('Open catalog details is not implemented yet');
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => BlocProvider(
+          create: (context) => getIt.get<CatalogDetailsCubit>(param1: catalog),
+          child: CatalogDetailsPage(),
+        ),
+      ),
+    );
   }
 }
 
