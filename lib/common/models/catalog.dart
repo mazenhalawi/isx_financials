@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:isx_financials/enums/category.dart';
+import 'package:isx_financials/common/enums/category.dart';
 
 part 'catalog.freezed.dart';
 part 'catalog.g.dart';
