@@ -5,6 +5,7 @@ import 'package:isx_financials/common/widgets/failure_widget.dart';
 import 'package:isx_financials/common/widgets/spinner.dart';
 import 'package:isx_financials/features/catalog_details/cubit/catalog_details_cubit.dart';
 import 'package:isx_financials/features/catalog_details/models/catalog_details_data.dart';
+import 'package:isx_financials/features/catalog_details/widgets/catalog_display.dart';
 
 class CatalogDetailsPage extends StatelessWidget {
   const CatalogDetailsPage({super.key});
@@ -63,21 +64,7 @@ extension StateWidgets on CatalogDetailsPage {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(data.catalog.title),
-            Text(
-              "Category: ${data.catalog.category?.title ?? 'Category not set'}",
-            ),
-            Text(
-              "Price(\$): ${data.catalog.price?.toString() ?? 'Price not set'}",
-            ),
-            Text(
-              "Rating: ${data.catalog.rating?.toString() ?? 'Rating not set'}",
-            ),
-          ],
-        ),
+        child: CatalogDisplay(catalog: data.catalog),
       ),
     );
   }
