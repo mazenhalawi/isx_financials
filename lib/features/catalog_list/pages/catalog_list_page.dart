@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isx_financials/common/models/failure.dart';
@@ -8,23 +10,70 @@ import 'package:isx_financials/features/catalog_list/bloc/catalog_list_bloc.dart
 import 'package:isx_financials/features/catalog_list/models/catalog_list_data.dart';
 import 'package:isx_financials/features/catalog_list/widgets/catalog_list_item.dart';
 import 'package:isx_financials/features/catalog_list/widgets/time_banner.dart';
+import 'package:rxdart/rxdart.dart';
 
-class CatalogListPage extends StatelessWidget {
+class CatalogListPage extends StatefulWidget {
   const CatalogListPage({super.key});
+
+  @override
+  State<CatalogListPage> createState() => _CatalogListPageState();
+}
+
+class _CatalogListPageState extends State<CatalogListPage> {
+  final TextEditingController _searchController = TextEditingController();
+  final PublishSubject<String> _searchSubject = PublishSubject<String>();
+  final FocusNode _searchFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    // add debounce to search input to prevent too many filter events from being fired
+    _searchSubject
+        .debounceTime(Duration(milliseconds: 500))
+        .listen(
+          (query) => mounted
+              ? context.read<CatalogListBloc>().add(
+                  CatalogListEvent.filter(query),
+                )
+              : null,
+        );
+
+    // listen to search input changes and add them to the search subject
+    _searchController.addListener(() {
+      _searchSubject.add(_searchController.text);
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _searchFocusNode.dispose();
+    _searchSubject.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Catalog List'),
-        bottom: const PreferredSize(
+        bottom: PreferredSize(
           preferredSize: Size(double.infinity, 60),
           child: Padding(
             padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
             child: SizedBox(
               height: 40,
               child: SearchBar(
+                controller: _searchController,
+                focusNode: _searchFocusNode,
                 leading: Icon(Icons.search),
+                trailing: [
+                  IconButton(
+                    onPressed: () => _searchController.clear(),
+                    icon: Icon(Icons.clear),
+                  ),
+                ],
+                onTapOutside: (event) => _searchFocusNode.unfocus(),
                 hintText: "Search catalogs...",
                 elevation: WidgetStatePropertyAll(0),
               ),
@@ -78,7 +127,7 @@ class CatalogListPage extends StatelessWidget {
   }
 }
 
-extension StateWidgets on CatalogListPage {
+extension StateWidgets on _CatalogListPageState {
   Widget _getInitialState(BuildContext context) {
     // trigger fetch catalogs event when page is first loaded
     context.read<CatalogListBloc>().add(CatalogListEvent.fetchCatalogs());

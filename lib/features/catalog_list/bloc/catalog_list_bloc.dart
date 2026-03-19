@@ -1,6 +1,7 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:isx_financials/common/models/catalog.dart';
 import 'package:isx_financials/common/models/failure.dart';
 import 'package:isx_financials/features/catalog_list/models/catalog_list_data.dart';
 import 'package:isx_financials/features/catalog_list/repository/catalog_list_repository.dart';
@@ -36,7 +37,26 @@ class CatalogListBloc extends Bloc<CatalogListEvent, CatalogListState> {
   Future _mapFilterEventToState(
     CatalogListEventFilter event,
     Emitter<CatalogListState> emit,
-  ) async {}
+  ) async {
+    final query = event.query.toLowerCase();
+    final filteredCatalogs = state.data.allCatalogs.where((catalog) {
+      return catalog.searchableContent.toLowerCase().contains(query);
+    }).toList();
+
+    final updatedData = state.data.copyWith(filteredCatalogs: filteredCatalogs);
+
+    if (filteredCatalogs.isEmpty) {
+      emit(
+        CatalogListState.displayAlert(
+          title: "No records found",
+          message: "Your search did not match any catalogs.",
+          data: state.data,
+        ),
+      );
+    }
+
+    emit(CatalogListState.loadSuccess(data: updatedData));
+  }
 
   Future _mapFetchCatalogsEventToState(
     CatalogListEvent event,
