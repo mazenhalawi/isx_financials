@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:isx_financials/common/services/get_it.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // setup dependency injection
+  setupGetIt();
+
   runApp(const MyApp());
 }
 
