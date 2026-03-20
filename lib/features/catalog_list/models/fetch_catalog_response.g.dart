@@ -6,9 +6,9 @@ part of 'fetch_catalog_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_FetchCatalogResponse _$FetchCatalogResponseFromJson(
+_$FetchCatalogResponseImpl _$$FetchCatalogResponseImplFromJson(
   Map<String, dynamic> json,
-) => _FetchCatalogResponse(
+) => _$FetchCatalogResponseImpl(
   lastUpdatedAt: DateTime.parse(json['updatedAt'] as String),
   catalogs:
       (json['items'] as List<dynamic>?)
@@ -17,8 +17,8 @@ _FetchCatalogResponse _$FetchCatalogResponseFromJson(
       const [],
 );
 
-Map<String, dynamic> _$FetchCatalogResponseToJson(
-  _FetchCatalogResponse instance,
+Map<String, dynamic> _$$FetchCatalogResponseImplToJson(
+  _$FetchCatalogResponseImpl instance,
 ) => <String, dynamic>{
   'updatedAt': instance.lastUpdatedAt?.toIso8601String(),
   'items': instance.catalogs.map((e) => e.toJson()).toList(),
